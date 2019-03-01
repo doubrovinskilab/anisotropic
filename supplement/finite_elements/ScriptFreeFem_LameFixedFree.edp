@@ -1,0 +1,230 @@
+//////////////////////////////////////////////////////////////////////////////////////////////
+// This script runs with FreeFem++ to solve the governing equation of 2D-elasticity
+// in the case of plane stress approximation. The configuration is that of
+// a square plate containing a loaded rectangular domain.
+// Written by J. Tchoufag in Kranthi K. Mandadapu’s group at UC Berkeley (kranthi@berkeley.edu)
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////// load mesh and linear solver libraries ////////////////////
+load "medit"
+load "iovtk" // for ParaView format
+load "UMFPACK64"
+defaulttoUMFPACK64();
+//////////////////////////////////////////////////////////////////////////
+
+/////// Mesh construction ///////////////////////////
+for (real L=40; L<=40; L=L*2)
+{
+	ofstream fout("TestFreeBC_L"+L+".txt");
+	ofstream ffout("TestFixedBC_L"+L+".txt");
+
+mesh Th1=square(50,50,[-L/2.+L*x,-L/2.+L*y]);
+
+//plot(Th1, wait=1);
+real s=40./8.; 
+
+
+border a1(t=-5,5){x=t;y=-1;label=5;}
+border a2(t=-1,1){x=5;y=t;label=5;}
+border a3(t=-5,5){x=-t;y=1; label=5;}//patch
+border a4(t=-1,1){x=-5;y=-t;label=5;}
+border c1(t=-L/4,L/4){x=t;y=-L/4;label=6;}
+border c2(t=-L/4,L/4){x=L/4;y=t;label=6;}
+border c3(t=-L/4,L/4){x=-t;y=L/4; label=6;}//patch
+border c4(t=-L/4,L/4){x=-L/4;y=-t;label=6;}
+border b1(t=-L/2,L/2){x=t;y=-L/2;label=1;}
+border b2(t=-L/2,L/2){x=L/2;y=t;label=2;}
+border b3(t=-L/2,L/2){x=-t;y=L/2; label=3;}//patch
+border b4(t=-L/2,L/2){x=-L/2;y=-t;label=4;}
+mesh Th=buildmesh( a1(200)+a2(40)+a3(200)+a4(40)
+																		+ b1(100)+b2(100)+b3(100)+b4(100)
+																		+ c1(100)+c2(100)+c3(100)+c4(100) );
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////// Finite Element Space /////////////////////
+fespace Vh(Th,P1);
+fespace Wh(Th,P1);
+
+fespace Vhv(Th,[P1,P1]);
+////////////////////////////////////////////////////
+
+Vhv [su,sv], [suu,svv], [u,v], [us,vs], [uu,vv];
+
+Vh exx,exy,eyy, sxx, syy, sxy;
+Wh p,pp, xx, yy;
+
+real sqrt2=sqrt(2.);
+macro epsilon(u1,u2)  [dx(u1),dy(u2),(dy(u1)+dx(u2))/sqrt2] // (Do not remove the '//' after a macro)
+// remark the $1/\sqrt2$ in term (dy(u1)+dx(u2)) is because 
+// we want to write the double contraction part of the weak form as 
+	// epsilon(u1,u2)'* epsilon(v1,v2) 
+	
+macro div(u,v) ( dx(u)+dy(v) ) //
+
+real E = 1., nu = 0.2; // Young's Modulus and Poisson's ratio
+real lambdastar=E*nu/(1.+nu)/(1-nu); // Lame 1st coefficient for plane stress elasticity
+real mu= E/(2.*(1.+nu)); // Lame 2nd coefficient (shear modulus)
+
+//////////////////// Define the Forcing term //////////////
+real sigma0=0.5;
+
+int memb=Th(0,0).region;
+real delx=(L)/(L*15);
+
+func heavysidex = real(abs(x)<5.); // "heaviside step function" defining where the forcing is active in x-direction
+func heavysidey = real(abs(y)<1.); // "heaviside step function" defining where the forcing is active in y-direction
+fespace Vh2(Th,P2);
+Vh2 sigma=sigma0*heavysidex*heavysidey;
+/////////////////////////////////////////////
+
+/////////////////////// Traction-free elasticity problem /////////////////////
+varf StiffMat([su,sv],[suu,svv])= int2d(Th)(  
+        -lambdastar*div(su,sv)*div(suu,svv)
+        -2.*mu*( epsilon(su,sv)'*epsilon(suu,svv) ) //'
+														);  /// Weak form for stiffness matrix ///
+
+varf forcing([u,v],[uu,vv])= int2d(Th)(-dx(sigma)*uu-dy(sigma)*vv)	; /// weak form for forcing term ///
+
+
+matrix KK= StiffMat(Vhv,Vhv); 
+Vhv [ffx,ffy];
+ffx[]=forcing(0,Vhv);
+/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////1st method to solve the traction-free: constraint three nodes in order to remove the rigid body modes ////////////////
+
+matrix BC;
+matrix BCy;
+real[int] bc(Vhv.ndof);
+real NodeValue=1e-16;
+ {
+    Vhv [vdofx,vdofy];
+				vdofx[]=0:Vhv.ndof-1;
+    int imx=floor(vdofx(L/2,-L/2)+0); //  get the node number of(L/2,-L/2)
+				int im2x=floor(vdofx(-L/2,L/2)+0);
+				int im3y=floor(vdofy(L/2,L/2)+0);
+    int[int] I(3),J(3); real[int]C(3);
+    I(0)=imx;J(0)=imx;C(0)=10^60;
+				I(1)=im2x;J(1)=im2x;C(1)=10^60;
+				I(2)=im3y;J(2)=im3y;C(2)=10^60;
+    BC=[I,J,C]; ///////////////////// matrix that contains the constraints (to be added to the stiffness matrix)
+    bc=0;
+				bc[imx]=NodeValue*10^60; // constraints on forcing by penalty method;
+				bc[im2x]=NodeValue*10^60;
+				bc[im3y]=NodeValue*10^60;
+}
+
+matrix Kc=KK+BC;
+set(Kc,solver=sparsesolver);
+Vhv [fxc,fyx], [uc, vc];
+	fxc[]=bc;
+					
+fxc[]+=ffx[];
+uc[]=Kc^-1*fxc[]; // solution of the traction-free problem where there is no rigid modes
+
+plot(uc, fill=1, wait=0, value=1); // put wait=1 to visualize the solution
+plot(vc, fill=1, wait=0, value=1);
+////////////////////////////////////////End of 1st method ///////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////2nd method to solve the traction-free problem through eigenmodes computations
+///////////////////////////// (WARNING: Not always garantee to work, unlike the first method) ////////////
+
+real shift=0; // shift for the shift-and-invert Arnoldi method to solve generalized eigenvalue problem
+
+varf aa([su,sv],[suu,svv])= int2d(Th)(  
+        -lambdastar*div(su,sv)*div(suu,svv)
+        -2.*mu*( epsilon(su,sv)'*epsilon(suu,svv) ) //'
+													- shift	*(su*suu+sv*svv)			);  // Boundary condition
+                   
+varf bb([su,sv],[suu,svv]) = int2d(Th)(  su*suu+sv*svv ) ; // no  Boundary condition
+
+matrix A= aa(Vhv,Vhv,solver=sparsesolver); 
+matrix B= bb(Vhv,Vhv,solver=sparsesolver); 
+
+int nev=10;  // number of computed eigenvalues close to sigma
+
+real[int] ev(nev); // to store nev eigein value
+Vhv[int] [eV,eW](nev);   // to store nev eigen vector
+
+int k=EigenValue(A,B,sym=true,sigma=shift,value=ev,vector=eV,tol=1e-10,maxit=0,ncv=0); //////// Eigenvalue solver 
+
+for  (int kk=nev-9;kk<=nev-1;kk++)
+{
+cout << " eigenvalues " << " " << kk << " " << ev(kk) << endl;
+[su,sv]=[eV[kk],eW[kk]];
+plot([su,sv], wait=0); // see the form of the ten computed eigenmodes
+}
+
+real[int] alf(3); // The last three modes are those with zero eigenvalue --> rigid body modes
+int jj=0;
+for (int kk=nev-3;kk<=nev-1;kk++)
+{
+	[su,sv]=[eV[kk],eW[kk]];
+//	A'*su[]; //'
+	
+	alf(jj)=int2d(Th)(su*u+sv*v);
+	
+	cout << " alpha " << " "  << kk << " " << alf(jj) << endl;
+	jj++;
+}
+
+///////////////////////////////// substract the rigid modes contributions from the solution /////
+	[su,sv]=[eV[nev-3],eW[nev-3]];
+	u[]+=-alf(0)*su[];
+	[su,sv]=[eV[nev-2],eW[nev-2]];
+	u[]+=-alf(1)*su[];
+	[su,sv]=[eV[nev-1],eW[nev-1]];
+	u[]+=-alf(2)*su[];
+	cout << " max displacement free BC " << u[].max << " " << v[].max << endl; 
+	plot(u, fill=1, wait=0, value=1);
+	plot(v, fill=1, wait=0, value=1);
+/////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////end of the 2nd  method ////////////////////////////////////	
+
+///////////////////// To see how the mesh deforms //////////////
+real coef=1;
+mesh Th2 = movemesh(Th, [x+uc*coef, y+vc*coef]);
+plot(Th2,wait=0,ps="lamedeform.eps");
+///////////// Compute the components of the strain tensor ///////////////////////
+/*solve strainFree([exx,exy,eyy],[sxx, sxy, syy])=int2d(Th)(exx*sxx+exy*sxy+eyy*syy)
+	- int2d(Th)( dx(uc)*sxx
+												+0.5*(dx(vc)+dy(uc))*sxy
+												+dy(vc)*syy );
+*/
+/////////////////////////////////////////////////////////////////////////////////
+
+for (real xx=-L/2; xx<L/2; xx=xx+delx) //output file
+{
+//	fout << xx << " " << exx(xx,0) << " " << eyy(xx,0) << " " << 0.5*(exx(xx,0)-exx(xx+delx,0))  << " " <<  exx(0,xx) << " " << eyy(0,xx) << " " << 0.5*(eyy(0,xx)-eyy(0,xx+delx)) << endl;
+		fout << xx << " " << uc(xx,0) << " " << vc(xx,0) << " " << uc(0,xx) << " " << vc(0,xx) << endl;
+}
+
+/////////////////////// Fixed-boundary elasticity problem /////////////////////
+solve lameFixed([us,vs],[uu,vv])= 
+	int2d(Th)( -lambdastar*div(us,vs)*div(uu,vv)
+        -2.*mu*( epsilon(us,vs)'*epsilon(uu,vv) ) ) //'
+											+	int2d(Th)(dx(sigma)*uu+dy(sigma)*vv)																									
+											+ on(1,2,3,4,us=0,vs=0);
+
+cout << " max displacement fixed BC " << us[].max << " " << vs[].max << endl; 
+plot(us, fill=1, wait=0, value=1);
+plot(vs, fill=1, wait=0, value=1);
+
+///////////////////// To see how the mesh deforms //////////////
+coef=1;
+Th2 = movemesh(Th, [x+us*coef, y+vs*coef]);
+plot(Th2,wait=0,ps="lamedeform.eps");
+///////////// Compute the components of the strain tensor ///////////////////////
+/*solve strainFixed([exx,exy,eyy],[sxx, sxy, syy])=int2d(Th)(exx*sxx+exy*sxy+eyy*syy)
+	- int2d(Th)( dx(us)*sxx
+												+0.5*(dx(vs)+dy(u))*sxy
+												+dy(vs)*syy );
+*/
+
+for (real xx=-L/2; xx<L/2; xx=xx+delx) // output file
+{
+	//ffout << xx << " " << exx(xx,0) << " " << eyy(xx,0) << " " << 0.5*(exx(xx,0)-exx(xx+delx,0))  << " " <<  exx(0,xx) << " " << eyy(0,xx) << " " << 0.5*(eyy(0,xx)-eyy(0,xx+delx)) <<  endl;
+		ffout << xx << " " << us(xx,0) << " " << vs(xx,0) << " " << us(0,xx) << " " << vs(0,xx) << endl;
+}
+
+}

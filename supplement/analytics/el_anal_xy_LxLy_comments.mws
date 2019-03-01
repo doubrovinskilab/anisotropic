@@ -1,0 +1,352 @@
+{VERSION 5 0 "IBM INTEL NT" "5.0" }
+{USTYLETAB {CSTYLE "Maple Input" -1 0 "Courier" 0 1 255 0 0 1 0 1 0 0 
+1 0 0 0 0 1 }{CSTYLE "2D Math" -1 2 "Times" 0 1 0 0 0 0 0 0 2 0 0 0 0 
+0 0 1 }{CSTYLE "2D Output" 2 20 "" 0 1 0 0 255 1 0 0 0 0 0 0 0 0 0 1 }
+{PSTYLE "Normal" -1 0 1 {CSTYLE "" -1 -1 "Times" 1 12 0 0 0 1 2 2 2 2 
+2 2 1 1 1 1 }1 1 0 0 0 0 1 0 1 0 2 2 0 1 }{PSTYLE "Text Output" -1 6 
+1 {CSTYLE "" -1 -1 "Courier" 1 10 0 0 255 1 2 2 2 2 2 1 2 1 3 1 }1 1 
+0 0 0 0 1 0 1 0 2 2 0 1 }{PSTYLE "Warning" -1 7 1 {CSTYLE "" -1 -1 "Co
+urier" 1 10 0 0 255 1 2 2 2 2 2 1 1 1 3 1 }1 1 0 0 0 0 1 0 1 0 2 2 0 
+1 }{PSTYLE "Maple Output" -1 11 1 {CSTYLE "" -1 -1 "Times" 1 12 0 0 0 
+1 2 2 2 2 2 2 1 1 1 1 }3 3 0 0 0 0 1 0 1 0 2 2 0 1 }{PSTYLE "Maple Out
+put" -1 12 1 {CSTYLE "" -1 -1 "Times" 1 12 0 0 0 1 2 2 2 2 2 2 1 1 1 
+1 }1 3 0 0 0 0 1 0 1 0 2 2 0 1 }}
+{SECT 0 {EXCHG {PARA 0 "" 0 "" {TEXT -1 203 "Analytical derication of \+
+Fourier-expanded solution. C-code is generated automatically and used \+
+to generate header files for the program constructing displacement fie
+lds from those analytical expressions." }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;
+" }{TEXT -1 0 "" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "with(cod
+egen,C):" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 37 "assume(n,intege
+r); assume(m,integer);" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 40 "Fourier
+ expansion of active force terms:" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 189 "phiBx(n,m) := ( sin(Pi*n*x0/Lx)-sin(Pi*n*(Lx-x0)/Lx)
+ )*int( cos(Pi*m*y/Ly), y=y0..Ly-y0 ) *4*phi0/(Lx*Ly);\nphiBx0(n) := (
+ sin(Pi*n*x0/Lx)-sin(Pi*n*(Lx-x0)/Lx) )*( Ly-2*y0 ) *2*phi0/(Lx*Ly);" 
+}}{PARA 11 "" 1 "" {XPPMATH 20 "6#>-%&phiBxG6$%#n|irG%#m|irG,$*0,&-%$s
+inG6#**%#PiG\"\"\"F'F1%#x0GF1%#LxG!\"\"F1-F-6#**F0F1F'F1,&F3F1F2F4F1F3
+F4F4F1-F-6#**F0F1F(F1%#LyGF4%#y0GF1F1,&)F4F(F1F1F1F1F0F4F(F4%%phi0GF1F
+3F4!\"%" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#>-%'phiBx0G6#%#n|irG,$*,,&-
+%$sinG6#**%#PiG\"\"\"F'F0%#x0GF0%#LxG!\"\"F0-F,6#**F/F0F'F0,&F2F0F1F3F
+0F2F3F3F0,&%#LyGF0*&\"\"#F0%#y0GF0F3F0%%phi0GF0F2F3F9F3F;" }}}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 84 "Automatically generate C code from Maple \+
+expression to use in the final calculation:" }}}{EXCHG {PARA 0 "> " 0 
+"" {MPLTEXT 1 0 14 "C(phiBx(n,m));" }}{PARA 6 "" 1 "" {TEXT -1 79 "   \+
+   t0 = -4.0*(sin(0.3141592653589793E1*n*x0/Lx)-sin(0.3141592653589793
+E1*n*(" }}{PARA 6 "" 1 "" {TEXT -1 68 "Lx-x0)/Lx))*sin(0.3141592653589
+793E1*m/Ly*y0)*(pow(-1.0,1.0*m)+1.0)/" }}{PARA 6 "" 1 "" {TEXT -1 31 "
+0.3141592653589793E1/m*phi0/Lx;" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 
+1 0 13 "C(phiBx0(n));" }}{PARA 6 "" 1 "" {TEXT -1 78 "      t0 = 2.0*(
+sin(0.3141592653589793E1*n*x0/Lx)-sin(0.3141592653589793E1*n*(" }}
+{PARA 6 "" 1 "" {TEXT -1 35 "Lx-x0)/Lx))*(Ly-2.0*y0)*phi0/Lx/Ly;" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 0 "" 0 "" 
+{TEXT -1 48 "Fourier expansion of active force terms cont'd::" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 189 "phiAy(n,m) := ( sin(Pi*m*y0
+/Ly)-sin(Pi*m*(Ly-y0)/Ly) )*int( cos(Pi*n*x/Lx), x=x0..Lx-x0 ) *4*phi0
+/(Lx*Ly);\nphiAy0(m) := ( sin(Pi*m*y0/Ly) - sin(Pi*m*(Ly-y0)/Ly) )*(Lx
+-2*x0) *2*phi0/(Lx*Ly);" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#>-%&phiAyG6
+$%#n|irG%#m|irG,$*0,&-%$sinG6#**%#PiG\"\"\"F(F1%#LyG!\"\"%#y0GF1F1-F-6
+#**,&F2F1F4F3F1F0F1F(F1F2F3F3F1-F-6#**F0F1F'F1%#x0GF1%#LxGF3F1,&)F3F'F
+1F1F1F1F0F3F'F3%%phi0GF1F2F3!\"%" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#>-
+%'phiAy0G6#%#m|irG,$*,,&-%$sinG6#**%#PiG\"\"\"F'F0%#LyG!\"\"%#y0GF0F0-
+F,6#**,&F1F0F3F2F0F/F0F'F0F1F2F2F0,&%#LxGF0*&\"\"#F0%#x0GF0F2F0%%phi0G
+F0F9F2F1F2F;" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "C( phiAy(n,
+m) );" }}{PARA 6 "" 1 "" {TEXT -1 63 "      t0 = -4.0*(sin(0.314159265
+3589793E1*m/Ly*y0)-sin((Ly-y0)*" }}{PARA 6 "" 1 "" {TEXT -1 79 "0.3141
+592653589793E1*m/Ly))*sin(0.3141592653589793E1*n*x0/Lx)*(pow(-1.0,1.0*
+n)+" }}{PARA 6 "" 1 "" {TEXT -1 36 "1.0)/0.3141592653589793E1/n*phi0/L
+y;" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "C( phiAy0(m) );" }}
+{PARA 6 "" 1 "" {TEXT -1 62 "      t0 = 2.0*(sin(0.3141592653589793E1*
+m/Ly*y0)-sin((Ly-y0)*" }}{PARA 6 "" 1 "" {TEXT -1 51 "0.31415926535897
+93E1*m/Ly))*(Lx-2.0*x0)*phi0/Lx/Ly;" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "restart;
+" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 62 "Differential equation for the
+ time-evolution of Fourier modes:" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 255 "eq1 := ( -alpha*( (Pi*n/Lx)^2 + (Pi*m/Ly)^2 ) - beta
+*(Pi*n/Lx)^2 )*B(t) - beta*(Pi^2/Lx/Ly)*n*m*A(t) + phiB = diff(B(t),t)
+/eta;\neq2 := ( -alpha*( (Pi*n/Lx)^2 + (Pi*m/Ly)^2 ) - beta*(Pi*m/Ly)^
+2 )*A(t) - beta*(Pi^2/Lx/Ly)*n*m*B(t) + phiA = diff(A(t),t)/eta;" }}
+{PARA 11 "" 1 "" {XPPMATH 20 "6#>%$eq1G/,(*&,&*&%&alphaG\"\"\",&*(%#Pi
+G\"\"#%\"nGF/%#LxG!\"#F+*(F.F/%\"mGF/%#LyGF2F+F+!\"\"**%%betaGF+F.F/F0
+F/F1F2F6F+-%\"BG6#%\"tGF+F+*0F8F+F.F/F1F6F5F6F0F+F4F+-%\"AGF;F+F6%%phi
+BGF+*&-%%diffG6$F9F<F+%$etaGF6" }}{PARA 11 "" 1 "" {XPPMATH 20 "6#>%$e
+q2G/,(*&,&*&%&alphaG\"\"\",&*(%#PiG\"\"#%\"nGF/%#LxG!\"#F+*(F.F/%\"mGF
+/%#LyGF2F+F+!\"\"**%%betaGF+F.F/F4F/F5F2F6F+-%\"AG6#%\"tGF+F+*0F8F+F.F
+/F1F6F5F6F0F+F4F+-%\"BGF;F+F6%%phiAGF+*&-%%diffG6$F9F<F+%$etaGF6" }}}
+{EXCHG {PARA 0 "" 0 "" {TEXT -1 71 "Inverting expressions to obtain ti
+me-evolution of Fourier coefficients:" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 47 "dsolve( \{eq1,eq2,A(0)=0,B(0)=0\}, \{A(t),B(t)\} );" 
+}}{PARA 12 "" 1 "" {XPPMATH 20 "6#<$/-%\"BG6#%\"tG,$*4,B*2%#LyG\"\"(%#
+LxG\"\"%%\"nG\"\"&%\"mG\"\"#%%betaG\"\"\"-%$expG6#*0,&*&)F3F4F6)F/F4F6
+!\"\"*&)F1F4F6)F-F4F6F?F6%&alphaGF6F-!\"#%#PiGF4F(F6F/FD%$etaGF6F6,&*(
+%%phiBGF6F/F6F3F6F?*(F-F6F1F6%%phiAGF6F6F6,(*&)F3F0F6)F/F0F6F6*,F4F6F=
+F6F>F6FAF6FBF6F6*&)F1F0F6)F-F0F6F6F?F?*2F/\"\")F3\"\"'F5F6F7F6FGF6F1F6
+F-\"\"$FLF?F?*.FCF6)F3FWF6)F/F2F6)F-FWF6F1F6FIF6F?*2F/FUFCF6F3FVF7F6FG
+F6F1F6F-FWFLF?F?*2F-F0F/F.FCF4F1F4F3F2-F86#*0F;F6F-FD,&F5F6FCF6F6FEF4F
+(F6F/FDFFF6F6,&*(F/F6FKF6F3F6F6*(F1F6FIF6F-F6F6F6,.*,FCF6FAF6F=F6FBF6F
+>F6F4*(FRF6F5F6FSF6F6*.F4F6F=F6FAF6F5F6FBF6F>F6F6*(FCF6FNF6FOF6F6*(F5F
+6FNF6FOF6F6*(FCF6FRF6FSF6F6F?F6*4F4F6F-F2F/FVFCF6F1FWF3F0F7F6FGF6FLF?F
+?*2F-FUFCF4F1FVFhnF6F\\oF6F3F6F/FWF_oF?F6*4F4F6F-FVF/F2FCF4F1F0F3FWFhn
+F6F\\oF6F_oF?F6*2F-F.F/F0FCF6F1F2F3F4F7F6FGF6FLF?F?*.FCF6)F1FWF6)F-F2F
+6)F/FWF6F3F6FIF6F?*4F4F6F-F2F/FVF1FWF3F0F5F6F7F6FGF6FLF?F?*.F5F6FYF6FZ
+F6FenF6F1F6FIF6F?*.F5F6F=F6FOF6FSF6FKF6FAF6F6*6F4F6F-FVF/F2F1F0F3FWF5F
+6FhnF6F\\oF6F_oF?FCF6F6*4F-F0F/F.F1F4F3F2F5F6FhnF6F\\oF6F_oF?FCF6F6*4F
+-FUF1FVFhnF6F\\oF6F3F6F/FWF_oF?F5F6FCF6F6F6F[oF?,&F<F6F@F6FDF-F?F1F?FE
+FDF/F?F3F?FCF?F?/-%\"AGF',(*2-F86#,$*0FEF4FFF6FCF6FdpF6F-FDF/FDF(F6F?F
+6FGF6F1F6F/F4F-FWFEFDFCF?FLF?F?*0-F86#,$*.FEF4FFF6,**(FCF6F=F6F>F6F6*(
+F5F6F=F6F>F6F6*(FCF6FAF6FBF6F6*(FAF6F5F6FBF6F6F6F-FDF/FDF(F6F?F6F\\oF6
+F3F6F/FWF-F4F_oF?FEFDF?*0F/F4F-F4,(**FAF6FKF6F[oF6FBF6F6*.F-F6F/F6F5F6
+F1F6F3F6FIF6F?**FKF6F>F6FCF6F=F6F6F6FEFDF[oF?FdpFDFCF?F6" }}}{EXCHG 
+{PARA 0 "" 0 "" {TEXT -1 59 "Generate C-code for time evolution of Fou
+rier coefficients:" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 16 "with(
+codegen,C):" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 2841 "A(t) := (-
+2*Ly^5*Lx^6*n^3*m^4*beta*exp((-n^2*Ly^2-m^2*Lx^2)*t/Ly^2*(beta+alpha)*
+eta/Lx^2*Pi^2)*(phiB*Ly*n+m*Lx*phiA)/(alpha*m^4*Lx^4+alpha*n^4*Ly^4+2*
+n^2*beta*m^2*Ly^2*Lx^2+2*alpha*n^2*m^2*Ly^2*Lx^2+beta*n^4*Ly^4+m^4*bet
+a*Lx^4)*alpha-beta*n^2*Ly^4*Lx^4*phiB*m^2-Ly^7*Lx^4*n^5*m^2*beta*exp((
+-n^2*Ly^2-m^2*Lx^2)*t/Ly^2*(beta+alpha)*eta/Lx^2*Pi^2)*(phiB*Ly*n+m*Lx
+*phiA)/(alpha*m^4*Lx^4+alpha*n^4*Ly^4+2*n^2*beta*m^2*Ly^2*Lx^2+2*alpha
+*n^2*m^2*Ly^2*Lx^2+beta*n^4*Ly^4+m^4*beta*Lx^4)*alpha+beta*n^3*Ly^5*Lx
+^3*m*phiA-Ly^8*n^6*beta*exp((-n^2*Ly^2-m^2*Lx^2)*t/Ly^2*eta/Lx^2*alpha
+*Pi^2)*(phiA*Ly*n-Lx*phiB*m)*m*Lx^3/(2*n^2*m^2*Ly^2*Lx^2+m^4*Lx^4+n^4*
+Ly^4)-Ly^4*Lx^7*n^2*m^5*beta*exp((-n^2*Ly^2-m^2*Lx^2)*t/Ly^2*eta/Lx^2*
+alpha*Pi^2)*(phiA*Ly*n-Lx*phiB*m)/(2*n^2*m^2*Ly^2*Lx^2+m^4*Lx^4+n^4*Ly
+^4)-2*Ly^6*Lx^5*n^4*m^3*beta*exp((-n^2*Ly^2-m^2*Lx^2)*t/Ly^2*eta/Lx^2*
+alpha*Pi^2)*(phiA*Ly*n-Lx*phiB*m)/(2*n^2*m^2*Ly^2*Lx^2+m^4*Lx^4+n^4*Ly
+^4)-Lx^8*alpha^2*m^6*exp((-n^2*Ly^2-m^2*Lx^2)*t/Ly^2*(beta+alpha)*eta/
+Lx^2*Pi^2)*(phiB*Ly*n+m*Lx*phiA)*n*Ly^3/(alpha*m^4*Lx^4+alpha*n^4*Ly^4
++2*n^2*beta*m^2*Ly^2*Lx^2+2*alpha*n^2*m^2*Ly^2*Lx^2+beta*n^4*Ly^4+m^4*
+beta*Lx^4)+alpha*m^3*Lx^5*Ly^3*n*phiA-2*Ly^5*Lx^6*alpha^2*n^3*m^4*exp(
+(-n^2*Ly^2-m^2*Lx^2)*t/Ly^2*(beta+alpha)*eta/Lx^2*Pi^2)*(phiB*Ly*n+m*L
+x*phiA)/(alpha*m^4*Lx^4+alpha*n^4*Ly^4+2*n^2*beta*m^2*Ly^2*Lx^2+2*alph
+a*n^2*m^2*Ly^2*Lx^2+beta*n^4*Ly^4+m^4*beta*Lx^4)+alpha*n^3*Ly^5*Lx^3*m
+*phiA-Ly^7*Lx^4*alpha^2*n^5*m^2*exp((-n^2*Ly^2-m^2*Lx^2)*t/Ly^2*(beta+
+alpha)*eta/Lx^2*Pi^2)*(phiB*Ly*n+m*Lx*phiA)/(alpha*m^4*Lx^4+alpha*n^4*
+Ly^4+2*n^2*beta*m^2*Ly^2*Lx^2+2*alpha*n^2*m^2*Ly^2*Lx^2+beta*n^4*Ly^4+
+m^4*beta*Lx^4)-Ly^4*Lx^7*alpha*n^2*m^5*exp((-n^2*Ly^2-m^2*Lx^2)*t/Ly^2
+*eta/Lx^2*alpha*Pi^2)*(phiA*Ly*n-Lx*phiB*m)/(2*n^2*m^2*Ly^2*Lx^2+m^4*L
+x^4+n^4*Ly^4)-2*Ly^6*Lx^5*alpha*n^4*m^3*exp((-n^2*Ly^2-m^2*Lx^2)*t/Ly^
+2*eta/Lx^2*alpha*Pi^2)*(phiA*Ly*n-Lx*phiB*m)/(2*n^2*m^2*Ly^2*Lx^2+m^4*
+Lx^4+n^4*Ly^4)-Ly^8*alpha*n^6*exp((-n^2*Ly^2-m^2*Lx^2)*t/Ly^2*eta/Lx^2
+*alpha*Pi^2)*(phiA*Ly*n-Lx*phiB*m)*m*Lx^3/(2*n^2*m^2*Ly^2*Lx^2+m^4*Lx^
+4+n^4*Ly^4)-Lx^8*m^6*exp((-n^2*Ly^2-m^2*Lx^2)*t/Ly^2*(beta+alpha)*eta/
+Lx^2*Pi^2)*(phiB*Ly*n+m*Lx*phiA)*n*Ly^3/(alpha*m^4*Lx^4+alpha*n^4*Ly^4
++2*n^2*beta*m^2*Ly^2*Lx^2+2*alpha*n^2*m^2*Ly^2*Lx^2+beta*n^4*Ly^4+m^4*
+beta*Lx^4)*beta*alpha)/(n^2*Ly^2+m^2*Lx^2)^2/(beta+alpha)/Pi^2/alpha/L
+x/m/Ly/n :\n\nB(t) := exp(-Pi^2*eta*alpha*(n^2*Ly^2+m^2*Lx^2)/Ly^2/Lx^
+2*t)*(phiA*Ly*n-Lx*phiB*m)*m*Lx^3*Ly^2/(2*n^2*m^2*Ly^2*Lx^2+m^4*Lx^4+n
+^4*Ly^4)/Pi^2/alpha-exp(-Pi^2*eta*(beta*n^2*Ly^2+alpha*n^2*Ly^2+beta*m
+^2*Lx^2+alpha*m^2*Lx^2)/Ly^2/Lx^2*t)*(phiB*Ly*n+m*Lx*phiA)*n*Lx^2*Ly^3
+/Pi^2/(alpha*m^4*Lx^4+alpha*n^4*Ly^4+2*n^2*beta*m^2*Ly^2*Lx^2+2*alpha*
+n^2*m^2*Ly^2*Lx^2+beta*n^4*Ly^4+m^4*beta*Lx^4)+(phiB*m^2*(beta+alpha)*
+Lx^2-Ly*Lx*beta*n*m*phiA+phiB*Ly^2*alpha*n^2)*Lx^2*Ly^2/Pi^2/alpha/(n^
+2*Ly^2+m^2*Lx^2)^2/(beta+alpha) :" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 8 "C(A(t));" }}{PARA 6 "" 1 "" {TEXT -1 78 "      MapleGe
+nVar5 = -2.0*Ly*Ly*Ly*Ly*Ly*Lx*Lx*Lx*Lx*Lx*Lx*n*n*n*m*m*m*m*beta*" }}
+{PARA 6 "" 1 "" {TEXT -1 69 "exp((-m*m*Lx*Lx-n*n*Ly*Ly)/(Ly*Ly)*(beta+
+alpha)*0.3141592653589793E1*" }}{PARA 6 "" 1 "" {TEXT -1 79 "0.3141592
+653589793E1*t/(Lx*Lx)*eta)*(Lx*phiA*m+n*phiB*Ly)/(2.0*alpha*n*n*m*m*Ly
+" }}{PARA 6 "" 1 "" {TEXT -1 78 "*Ly*Lx*Lx+n*n*n*n*beta*Ly*Ly*Ly*Ly+2.
+0*m*m*n*n*beta*Ly*Ly*Lx*Lx+alpha*m*m*m*m*" }}{PARA 6 "" 1 "" {TEXT -1 
+79 "Lx*Lx*Lx*Lx+beta*m*m*m*m*Lx*Lx*Lx*Lx+alpha*n*n*n*n*Ly*Ly*Ly*Ly)*al
+pha-beta*n*n*" }}{PARA 6 "" 1 "" {TEXT -1 79 "Ly*Ly*Ly*Ly*Lx*Lx*Lx*Lx*
+phiB*m*m-Ly*Ly*Ly*Ly*Ly*Ly*Ly*Lx*Lx*Lx*Lx*n*n*n*n*n*m*m" }}{PARA 6 "" 
+1 "" {TEXT -1 75 "*beta*exp((-m*m*Lx*Lx-n*n*Ly*Ly)/(Ly*Ly)*(beta+alpha
+)*0.3141592653589793E1*" }}{PARA 6 "" 1 "" {TEXT -1 79 "0.314159265358
+9793E1*t/(Lx*Lx)*eta)*(Lx*phiA*m+n*phiB*Ly)/(2.0*alpha*n*n*m*m*Ly" }}
+{PARA 6 "" 1 "" {TEXT -1 78 "*Ly*Lx*Lx+n*n*n*n*beta*Ly*Ly*Ly*Ly+2.0*m*
+m*n*n*beta*Ly*Ly*Lx*Lx+alpha*m*m*m*m*" }}{PARA 6 "" 1 "" {TEXT -1 79 "
+Lx*Lx*Lx*Lx+beta*m*m*m*m*Lx*Lx*Lx*Lx+alpha*n*n*n*n*Ly*Ly*Ly*Ly)*alpha+
+beta*n*n*" }}{PARA 6 "" 1 "" {TEXT -1 33 "n*Ly*Ly*Ly*Ly*Ly*Lx*Lx*Lx*m*
+phiA;" }}{PARA 6 "" 1 "" {TEXT -1 79 "      MapleGenVar4 = MapleGenVar
+5-Ly*Ly*Ly*Ly*Ly*Ly*Ly*Ly*n*n*n*n*n*n*beta*exp(" }}{PARA 6 "" 1 "" 
+{TEXT -1 79 "(-m*m*Lx*Lx-n*n*Ly*Ly)*alpha/(Ly*Ly)*0.3141592653589793E1
+*0.3141592653589793E1*" }}{PARA 6 "" 1 "" {TEXT -1 78 "t/(Lx*Lx)*eta)*
+(-phiB*Lx*m+Ly*n*phiA)*m*Lx*Lx*Lx/(m*m*m*m*Lx*Lx*Lx*Lx+2.0*m*m*" }}
+{PARA 6 "" 1 "" {TEXT -1 79 "Lx*Lx*n*n*Ly*Ly+n*n*n*n*Ly*Ly*Ly*Ly)-Ly*L
+y*Ly*Ly*Lx*Lx*Lx*Lx*Lx*Lx*Lx*n*n*m*m*m" }}{PARA 6 "" 1 "" {TEXT -1 72 
+"*m*m*beta*exp((-m*m*Lx*Lx-n*n*Ly*Ly)*alpha/(Ly*Ly)*0.3141592653589793
+E1*" }}{PARA 6 "" 1 "" {TEXT -1 79 "0.3141592653589793E1*t/(Lx*Lx)*eta
+)*(-phiB*Lx*m+Ly*n*phiA)/(m*m*m*m*Lx*Lx*Lx*Lx" }}{PARA 6 "" 1 "" 
+{TEXT -1 79 "+2.0*m*m*Lx*Lx*n*n*Ly*Ly+n*n*n*n*Ly*Ly*Ly*Ly)-2.0*Ly*Ly*L
+y*Ly*Ly*Ly*Lx*Lx*Lx*Lx" }}{PARA 6 "" 1 "" {TEXT -1 64 "*Lx*n*n*n*n*m*m
+*m*beta*exp((-m*m*Lx*Lx-n*n*Ly*Ly)*alpha/(Ly*Ly)*" }}{PARA 6 "" 1 "" 
+{TEXT -1 79 "0.3141592653589793E1*0.3141592653589793E1*t/(Lx*Lx)*eta)*
+(-phiB*Lx*m+Ly*n*phiA)" }}{PARA 6 "" 1 "" {TEXT -1 79 "/(m*m*m*m*Lx*Lx
+*Lx*Lx+2.0*m*m*Lx*Lx*n*n*Ly*Ly+n*n*n*n*Ly*Ly*Ly*Ly)-Lx*Lx*Lx*Lx*" }}
+{PARA 6 "" 1 "" {TEXT -1 77 "Lx*Lx*Lx*Lx*alpha*alpha*m*m*m*m*m*m*exp((
+-m*m*Lx*Lx-n*n*Ly*Ly)/(Ly*Ly)*(beta+" }}{PARA 6 "" 1 "" {TEXT -1 77 "a
+lpha)*0.3141592653589793E1*0.3141592653589793E1*t/(Lx*Lx)*eta)*(Lx*phi
+A*m+n*" }}{PARA 6 "" 1 "" {TEXT -1 79 "phiB*Ly)*n*Ly*Ly*Ly/(2.0*alpha*
+n*n*m*m*Ly*Ly*Lx*Lx+n*n*n*n*beta*Ly*Ly*Ly*Ly+2.0" }}{PARA 6 "" 1 "" 
+{TEXT -1 77 "*m*m*n*n*beta*Ly*Ly*Lx*Lx+alpha*m*m*m*m*Lx*Lx*Lx*Lx+beta*
+m*m*m*m*Lx*Lx*Lx*Lx+" }}{PARA 6 "" 1 "" {TEXT -1 27 "alpha*n*n*n*n*Ly*
+Ly*Ly*Ly);" }}{PARA 6 "" 1 "" {TEXT -1 76 "      MapleGenVar5 = MapleG
+enVar4+alpha*m*m*m*Lx*Lx*Lx*Lx*Lx*Ly*Ly*Ly*n*phiA" }}{PARA 6 "" 1 "" 
+{TEXT -1 79 "-2.0*Ly*Ly*Ly*Ly*Ly*Lx*Lx*Lx*Lx*Lx*Lx*alpha*alpha*n*n*n*m
+*m*m*m*exp((-m*m*Lx*Lx" }}{PARA 6 "" 1 "" {TEXT -1 78 "-n*n*Ly*Ly)/(Ly
+*Ly)*(beta+alpha)*0.3141592653589793E1*0.3141592653589793E1*t/(" }}
+{PARA 6 "" 1 "" {TEXT -1 78 "Lx*Lx)*eta)*(Lx*phiA*m+n*phiB*Ly)/(2.0*al
+pha*n*n*m*m*Ly*Ly*Lx*Lx+n*n*n*n*beta*" }}{PARA 6 "" 1 "" {TEXT -1 79 "
+Ly*Ly*Ly*Ly+2.0*m*m*n*n*beta*Ly*Ly*Lx*Lx+alpha*m*m*m*m*Lx*Lx*Lx*Lx+bet
+a*m*m*m*m" }}{PARA 6 "" 1 "" {TEXT -1 78 "*Lx*Lx*Lx*Lx+alpha*n*n*n*n*L
+y*Ly*Ly*Ly)+alpha*n*n*n*Ly*Ly*Ly*Ly*Ly*Lx*Lx*Lx*m*" }}{PARA 6 "" 1 "" 
+{TEXT -1 5 "phiA;" }}{PARA 6 "" 1 "" {TEXT -1 79 "      MapleGenVar6 =
+ MapleGenVar5-Ly*Ly*Ly*Ly*Ly*Ly*Ly*Lx*Lx*Lx*Lx*alpha*alpha*" }}{PARA 
+6 "" 1 "" {TEXT -1 62 "n*n*n*n*n*m*m*exp((-m*m*Lx*Lx-n*n*Ly*Ly)/(Ly*Ly
+)*(beta+alpha)*" }}{PARA 6 "" 1 "" {TEXT -1 79 "0.3141592653589793E1*0
+.3141592653589793E1*t/(Lx*Lx)*eta)*(Lx*phiA*m+n*phiB*Ly)/" }}{PARA 6 "
+" 1 "" {TEXT -1 79 "(2.0*alpha*n*n*m*m*Ly*Ly*Lx*Lx+n*n*n*n*beta*Ly*Ly*
+Ly*Ly+2.0*m*m*n*n*beta*Ly*Ly*" }}{PARA 6 "" 1 "" {TEXT -1 79 "Lx*Lx+al
+pha*m*m*m*m*Lx*Lx*Lx*Lx+beta*m*m*m*m*Lx*Lx*Lx*Lx+alpha*n*n*n*n*Ly*Ly*L
+y" }}{PARA 6 "" 1 "" {TEXT -1 78 "*Ly)-Ly*Ly*Ly*Ly*Lx*Lx*Lx*Lx*Lx*Lx*L
+x*alpha*n*n*m*m*m*m*m*exp((-m*m*Lx*Lx-n*n*" }}{PARA 6 "" 1 "" {TEXT 
+-1 79 "Ly*Ly)*alpha/(Ly*Ly)*0.3141592653589793E1*0.3141592653589793E1*
+t/(Lx*Lx)*eta)*(" }}{PARA 6 "" 1 "" {TEXT -1 78 "-phiB*Lx*m+Ly*n*phiA)
+/(m*m*m*m*Lx*Lx*Lx*Lx+2.0*m*m*Lx*Lx*n*n*Ly*Ly+n*n*n*n*Ly*" }}{PARA 6 "
+" 1 "" {TEXT -1 10 "Ly*Ly*Ly);" }}{PARA 6 "" 1 "" {TEXT -1 79 "      M
+apleGenVar3 = MapleGenVar6-2.0*Ly*Ly*Ly*Ly*Ly*Ly*Lx*Lx*Lx*Lx*Lx*alpha*
+n*" }}{PARA 6 "" 1 "" {TEXT -1 74 "n*n*n*m*m*m*exp((-m*m*Lx*Lx-n*n*Ly*
+Ly)*alpha/(Ly*Ly)*0.3141592653589793E1*" }}{PARA 6 "" 1 "" {TEXT -1 
+79 "0.3141592653589793E1*t/(Lx*Lx)*eta)*(-phiB*Lx*m+Ly*n*phiA)/(m*m*m*
+m*Lx*Lx*Lx*Lx" }}{PARA 6 "" 1 "" {TEXT -1 79 "+2.0*m*m*Lx*Lx*n*n*Ly*Ly
++n*n*n*n*Ly*Ly*Ly*Ly)-Ly*Ly*Ly*Ly*Ly*Ly*Ly*Ly*alpha*n*n" }}{PARA 6 "" 
+1 "" {TEXT -1 71 "*n*n*n*n*exp((-m*m*Lx*Lx-n*n*Ly*Ly)*alpha/(Ly*Ly)*0.
+3141592653589793E1*" }}{PARA 6 "" 1 "" {TEXT -1 79 "0.3141592653589793
+E1*t/(Lx*Lx)*eta)*(-phiB*Lx*m+Ly*n*phiA)*m*Lx*Lx*Lx/(m*m*m*m*" }}
+{PARA 6 "" 1 "" {TEXT -1 78 "Lx*Lx*Lx*Lx+2.0*m*m*Lx*Lx*n*n*Ly*Ly+n*n*n
+*n*Ly*Ly*Ly*Ly)-Lx*Lx*Lx*Lx*Lx*Lx*Lx*" }}{PARA 6 "" 1 "" {TEXT -1 63 "
+Lx*m*m*m*m*m*m*exp((-m*m*Lx*Lx-n*n*Ly*Ly)/(Ly*Ly)*(beta+alpha)*" }}
+{PARA 6 "" 1 "" {TEXT -1 79 "0.3141592653589793E1*0.3141592653589793E1
+*t/(Lx*Lx)*eta)*(Lx*phiA*m+n*phiB*Ly)*" }}{PARA 6 "" 1 "" {TEXT -1 79 
+"n*Ly*Ly*Ly/(2.0*alpha*n*n*m*m*Ly*Ly*Lx*Lx+n*n*n*n*beta*Ly*Ly*Ly*Ly+2.
+0*m*m*n*n*" }}{PARA 6 "" 1 "" {TEXT -1 79 "beta*Ly*Ly*Lx*Lx+alpha*m*m*
+m*m*Lx*Lx*Lx*Lx+beta*m*m*m*m*Lx*Lx*Lx*Lx+alpha*n*n*n" }}{PARA 6 "" 1 "
+" {TEXT -1 27 "*n*Ly*Ly*Ly*Ly)*beta*alpha;" }}{PARA 6 "" 1 "" {TEXT 
+-1 54 "      MapleGenVar4 = 1/(pow(m*m*Lx*Lx+n*n*Ly*Ly,2.0));" }}
+{PARA 6 "" 1 "" {TEXT -1 47 "      MapleGenVar2 = MapleGenVar3*MapleGe
+nVar4;" }}{PARA 6 "" 1 "" {TEXT -1 79 "      MapleGenVar3 = 1/(beta+al
+pha)/(0.3141592653589793E1*0.3141592653589793E1)" }}{PARA 6 "" 1 "" 
+{TEXT -1 1 ";" }}{PARA 6 "" 1 "" {TEXT -1 47 "      MapleGenVar1 = Map
+leGenVar2*MapleGenVar3;" }}{PARA 6 "" 1 "" {TEXT -1 39 "      MapleGen
+Var2 = 1/alpha/Lx/m/Ly/n;" }}{PARA 6 "" 1 "" {TEXT -1 37 "      t0 = M
+apleGenVar1*MapleGenVar2;" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 
+"C(B(t));" }}{PARA 6 "" 1 "" {TEXT -1 79 "      t0 = exp(-0.3141592653
+589793E1*0.3141592653589793E1*eta*alpha*(m*m*Lx*Lx+" }}{PARA 6 "" 1 "
+" {TEXT -1 79 "n*n*Ly*Ly)/(Ly*Ly)/(Lx*Lx)*t)*(-phiB*Lx*m+Ly*n*phiA)*m*
+Lx*Lx*Lx*Ly*Ly/(m*m*m*m*" }}{PARA 6 "" 1 "" {TEXT -1 79 "Lx*Lx*Lx*Lx+2
+.0*m*m*Lx*Lx*n*n*Ly*Ly+n*n*n*n*Ly*Ly*Ly*Ly)/(0.3141592653589793E1*" }}
+{PARA 6 "" 1 "" {TEXT -1 79 "0.3141592653589793E1)/alpha-exp(-0.314159
+2653589793E1*0.3141592653589793E1*eta*" }}{PARA 6 "" 1 "" {TEXT -1 79 
+"(alpha*m*m*Lx*Lx+beta*m*m*Lx*Lx+alpha*n*n*Ly*Ly+n*n*beta*Ly*Ly)/(Ly*L
+y)/(Lx*Lx)" }}{PARA 6 "" 1 "" {TEXT -1 65 "*t)*(Lx*phiA*m+n*phiB*Ly)*n
+*Lx*Lx*Ly*Ly*Ly/(0.3141592653589793E1*" }}{PARA 6 "" 1 "" {TEXT -1 78 
+"0.3141592653589793E1)/(2.0*alpha*n*n*m*m*Ly*Ly*Lx*Lx+n*n*n*n*beta*Ly*
+Ly*Ly*Ly+" }}{PARA 6 "" 1 "" {TEXT -1 79 "2.0*m*m*n*n*beta*Ly*Ly*Lx*Lx
++alpha*m*m*m*m*Lx*Lx*Lx*Lx+beta*m*m*m*m*Lx*Lx*Lx*Lx" }}{PARA 6 "" 1 "
+" {TEXT -1 77 "+alpha*n*n*n*n*Ly*Ly*Ly*Ly)+(phiB*m*m*(beta+alpha)*Lx*L
+x-Ly*Lx*beta*n*m*phiA+" }}{PARA 6 "" 1 "" {TEXT -1 78 "phiB*Ly*Ly*alph
+a*n*n)*Lx*Lx*Ly*Ly/(0.3141592653589793E1*0.3141592653589793E1)/" }}
+{PARA 6 "" 1 "" {TEXT -1 48 "alpha/pow(m*m*Lx*Lx+n*n*Ly*Ly,2.0)/(beta+
+alpha);" }}}{EXCHG {PARA 0 "" 0 "" {TEXT -1 136 "It turns out the abov
+e expressions may be simplified. Below are simplified expressions toge
+ther with the automatically generated C-code." }}}{EXCHG {PARA 0 "> " 
+0 "" {MPLTEXT 1 0 25 "A(t) := simplify( A(t) );" }}{PARA 12 "" 1 "" 
+{XPPMATH 20 "6#>-%\"AG6#%\"tG,$*0%#LxG\"\"#%#LyGF+,6*,)%\"mGF+\"\"\")F
+*F+F1%&alphaGF1-%$expG6#,$*0%#PiGF+%$etaGF1,&*&F/F1F2F1F1*&)%\"nGF+F1)
+F,F+F1F1F1,&%%betaGF1F3F1F1F'F1F,!\"#F*FC!\"\"F1%%phiAGF1F1**FEF1F2F1F
+3F1F/F1FD*0F0F1F*F1F3F1F4F1F?F1%%phiBGF1F,F1F1*0F0F1F*F1F,F1F?F1FBF1-F
+56#,$*0F9F+F:F1F3F1F;F1F,FCF*FCF'F1FDF1FHF1FD*.F,F1F*F1FBF1F?F1F0F1FHF
+1F1*0F0F1F*F1F3F1F,F1F?F1FJF1FHF1FD**FBF1F>F1F@F1FEF1FD*,F3F1F@F1F>F1F
+JF1FEF1F1*,F@F1F>F1FBF1FJF1FEF1F1**F3F1F>F1F@F1FEF1FDF1F3FDF9FCFAFDF;F
+CFD" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 5 "B(t);" }}{PARA 12 "" 
+1 "" {XPPMATH 20 "6#,(*2-%$expG6#,$*0%#PiG\"\"#%$etaG\"\"\"%&alphaGF-,
+&*&)%\"mGF+F-)%#LxGF+F-F-*&)%\"nGF+F-)%#LyGF+F-F-F-F9!\"#F4F:%\"tGF-!
+\"\"F-,&*(%%phiBGF-F4F-F2F-F<*(F9F-F7F-%%phiAGF-F-F-F2F-F4\"\"$F9F+,(*
+&)F2\"\"%F-)F4FFF-F-*,F+F-F1F-F3F-F6F-F8F-F-*&)F7FFF-)F9FFF-F-F<F*F:F.
+F<F-*0-F&6#,$*.F*F+F,F-,**(F.F-F1F-F3F-F-*(%%betaGF-F1F-F3F-F-*(F.F-F6
+F-F8F-F-*(F6F-FTF-F8F-F-F-F9F:F4F:F;F-F<F-,&*(F4F-FAF-F2F-F-*(F7F-F?F-
+F9F-F-F-F7F-F4F+F9FBF*F:,.*,F.F-F6F-F1F-F8F-F3F-F+*(FJF-FTF-FKF-F-*.F+
+F-F1F-F6F-FTF-F8F-F3F-F-*(F.F-FEF-FGF-F-*(FTF-FEF-FGF-F-*(F.F-FJF-FKF-
+F-F<F<*0,(**F?F-F1F-,&FTF-F.F-F-F3F-F-*.F9F-F4F-FTF-F7F-F2F-FAF-F<**F?
+F-F8F-F.F-F6F-F-F-F4F+F9F+F*F:F.F<F/F:F^oF<F-" }}}{EXCHG {PARA 0 "> " 
+0 "" {MPLTEXT 1 0 0 "" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 509 "B
+(t) := exp(-Pi^2*eta*alpha*(n^2*Ly^2+m^2*Lx^2)/Ly^2/Lx^2*t)*(phiA*Ly*n
+-Lx*phiB*m)*m*Lx^3*Ly^2/(2*n^2*m^2*Ly^2*Lx^2+m^4*Lx^4+n^4*Ly^4)/Pi^2/a
+lpha-exp(-Pi^2*eta*(beta*n^2*Ly^2+alpha*n^2*Ly^2+beta*m^2*Lx^2+alpha*m
+^2*Lx^2)/Ly^2/Lx^2*t)*(phiB*Ly*n+m*Lx*phiA)*n*Lx^2*Ly^3/Pi^2/(alpha*m^
+4*Lx^4+alpha*n^4*Ly^4+2*n^2*beta*m^2*Ly^2*Lx^2+2*alpha*n^2*m^2*Ly^2*Lx
+^2+beta*n^4*Ly^4+m^4*beta*Lx^4)+(phiB*m^2*(beta+alpha)*Lx^2-Ly*Lx*beta
+*n*m*phiA+phiB*Ly^2*alpha*n^2)*Lx^2*Ly^2/Pi^2/alpha/(n^2*Ly^2+m^2*Lx^2
+)^2/(beta+alpha) ;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>-%\"BG6#%\"tG,(
+*2-%$expG6#,$*0%#PiG\"\"#%$etaG\"\"\"%&alphaGF2,&*&)%\"mGF0F2)%#LxGF0F
+2F2*&)%\"nGF0F2)%#LyGF0F2F2F2F>!\"#F9F?F'F2!\"\"F2,&*(%%phiBGF2F9F2F7F
+2F@*(F>F2F<F2%%phiAGF2F2F2F7F2F9\"\"$F>F0,(*&)F7\"\"%F2)F9FJF2F2*,F0F2
+F6F2F8F2F;F2F=F2F2*&)F<FJF2)F>FJF2F2F@F/F?F3F@F2*0-F+6#,$*.F/F0F1F2,**
+(F3F2F6F2F8F2F2*(%%betaGF2F6F2F8F2F2*(F3F2F;F2F=F2F2*(F;F2FXF2F=F2F2F2
+F>F?F9F?F'F2F@F2,&*(F9F2FEF2F7F2F2*(F<F2FCF2F>F2F2F2F<F2F9F0F>FFF/F?,.
+*,F3F2F;F2F6F2F=F2F8F2F0*(FNF2FXF2FOF2F2*.F0F2F6F2F;F2FXF2F=F2F8F2F2*(
+F3F2FIF2FKF2F2*(FXF2FIF2FKF2F2*(F3F2FNF2FOF2F2F@F@*0,(**FCF2F6F2,&FXF2
+F3F2F2F8F2F2*.F>F2F9F2FXF2F<F2F7F2FEF2F@**FCF2F=F2F3F2F;F2F2F2F9F0F>F0
+F/F?F3F@F4F?FboF@F2" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 15 "simp
+lify(B(t));" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#,$*0%#LxG\"\"#%#LyGF&,6
+*,%&alphaG\"\"\")%\"mGF&F+)F%F&F+-%$expG6#,$*0%#PiGF&%$etaGF+F*F+,&*&F
+,F+F.F+F+*&)%\"nGF&F+)F'F&F+F+F+F'!\"#F%F<%\"tGF+!\"\"F+%%phiBGF+F+**F
+?F+F,F+F.F+F*F+F>*0F*F+F-F+F%F+-F06#,$*0F4F&F5F+F6F+,&%%betaGF+F*F+F+F
+=F+F'F<F%F<F>F+F:F+F'F+%%phiAGF+F+*0F*F+F-F+F%F+F/F+F'F+F:F+FHF+F>**F?
+F+F;F+F*F+F9F+F>*,F*F+FBF+F9F+F;F+F?F+F+*,F,F+F.F+FGF+F/F+F?F+F+**F?F+
+F,F+F.F+FGF+F>*.F'F+F%F+FGF+F:F+F-F+FHF+F+*0F-F+F%F+F/F+F'F+F:F+FHF+FG
+F+F>F+F*F>F4F<FFF>F6F<F>" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 11 
+"B(t) := % ;" }}{PARA 12 "" 1 "" {XPPMATH 20 "6#>-%\"BG6#%\"tG,$*0%#Lx
+G\"\"#%#LyGF+,6*,%&alphaG\"\"\")%\"mGF+F0)F*F+F0-%$expG6#,$*0%#PiGF+%$
+etaGF0F/F0,&*&F1F0F3F0F0*&)%\"nGF+F0)F,F+F0F0F0F,!\"#F*FAF'F0!\"\"F0%%
+phiBGF0F0**FCF0F1F0F3F0F/F0FB*0F/F0F2F0F*F0-F56#,$*0F9F+F:F0F;F0,&%%be
+taGF0F/F0F0F'F0F,FAF*FAFBF0F?F0F,F0%%phiAGF0F0*0F/F0F2F0F*F0F4F0F,F0F?
+F0FLF0FB**FCF0F@F0F/F0F>F0FB*,F/F0FFF0F>F0F@F0FCF0F0*,F1F0F3F0FKF0F4F0
+FCF0F0**FCF0F1F0F3F0FKF0FB*.F,F0F*F0FKF0F?F0F2F0FLF0F0*0F2F0F*F0F4F0F,
+F0F?F0FLF0FKF0FBF0F/FBF9FAFJFBF;FAFB" }}}{EXCHG {PARA 0 "> " 0 "" 
+{MPLTEXT 1 0 14 "with(codegen):" }}{PARA 7 "" 1 "" {TEXT -1 70 "Warnin
+g, the protected name MathML has been redefined and unprotected\n" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 9 "C(B(t)) ;" }}{PARA 6 "" 1 "" 
+{TEXT -1 67 "      t0 = -Lx*Lx*Ly*Ly*(alpha*m*m*Lx*Lx*exp(-0.314159265
+3589793E1*" }}{PARA 6 "" 1 "" {TEXT -1 77 "0.3141592653589793E1*eta*al
+pha*(m*m*Lx*Lx+n*n*Ly*Ly)/(Ly*Ly)/(Lx*Lx)*t)*phiB-" }}{PARA 6 "" 1 "" 
+{TEXT -1 79 "phiB*m*m*Lx*Lx*alpha+alpha*m*Lx*exp(-0.3141592653589793E1
+*0.3141592653589793E1*" }}{PARA 6 "" 1 "" {TEXT -1 79 "eta*(m*m*Lx*Lx+
+n*n*Ly*Ly)*(beta+alpha)*t/(Ly*Ly)/(Lx*Lx))*n*Ly*phiA-alpha*m*Lx*" }}
+{PARA 6 "" 1 "" {TEXT -1 79 "exp(-0.3141592653589793E1*0.3141592653589
+793E1*eta*alpha*(m*m*Lx*Lx+n*n*Ly*Ly)/" }}{PARA 6 "" 1 "" {TEXT -1 61 
+"(Ly*Ly)/(Lx*Lx)*t)*Ly*n*phiA-phiB*Ly*Ly*alpha*n*n+alpha*exp(-" }}
+{PARA 6 "" 1 "" {TEXT -1 79 "0.3141592653589793E1*0.3141592653589793E1
+*eta*(m*m*Lx*Lx+n*n*Ly*Ly)*(beta+alpha" }}{PARA 6 "" 1 "" {TEXT -1 77 
+")*t/(Ly*Ly)/(Lx*Lx))*n*n*Ly*Ly*phiB+m*m*Lx*Lx*beta*exp(-0.31415926535
+89793E1*" }}{PARA 6 "" 1 "" {TEXT -1 77 "0.3141592653589793E1*eta*alph
+a*(m*m*Lx*Lx+n*n*Ly*Ly)/(Ly*Ly)/(Lx*Lx)*t)*phiB-" }}{PARA 6 "" 1 "" 
+{TEXT -1 71 "phiB*m*m*Lx*Lx*beta+Ly*Lx*beta*n*m*phiA-m*Lx*exp(-0.31415
+92653589793E1*" }}{PARA 6 "" 1 "" {TEXT -1 77 "0.3141592653589793E1*et
+a*alpha*(m*m*Lx*Lx+n*n*Ly*Ly)/(Ly*Ly)/(Lx*Lx)*t)*Ly*n*" }}{PARA 6 "" 
+1 "" {TEXT -1 79 "phiA*beta)/alpha/(0.3141592653589793E1*0.31415926535
+89793E1)/(beta+alpha)/pow(m" }}{PARA 6 "" 1 "" {TEXT -1 24 "*m*Lx*Lx+n
+*n*Ly*Ly,2.0);" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}
+{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 8 "C(A(t));" }}{PARA 6 "" 1 "" 
+{TEXT -1 67 "      t0 = -Lx*Lx*Ly*Ly*(m*m*Lx*Lx*alpha*exp(-0.314159265
+3589793E1*" }}{PARA 6 "" 1 "" {TEXT -1 79 "0.3141592653589793E1*eta*(m
+*m*Lx*Lx+n*n*Ly*Ly)*(beta+alpha)*t/(Ly*Ly)/(Lx*Lx))*" }}{PARA 6 "" 1 "
+" {TEXT -1 63 "phiA-phiA*Lx*Lx*alpha*m*m+m*Lx*alpha*exp(-0.31415926535
+89793E1*" }}{PARA 6 "" 1 "" {TEXT -1 79 "0.3141592653589793E1*eta*(m*m
+*Lx*Lx+n*n*Ly*Ly)*(beta+alpha)*t/(Ly*Ly)/(Lx*Lx))*" }}{PARA 6 "" 1 "" 
+{TEXT -1 76 "n*phiB*Ly-m*Lx*Ly*n*beta*exp(-0.3141592653589793E1*0.3141
+592653589793E1*eta*" }}{PARA 6 "" 1 "" {TEXT -1 77 "alpha*(m*m*Lx*Lx+n
+*n*Ly*Ly)/(Ly*Ly)/(Lx*Lx)*t)*phiB+Ly*Lx*beta*n*m*phiB-m*Lx*" }}{PARA 
+6 "" 1 "" {TEXT -1 79 "alpha*Ly*n*exp(-0.3141592653589793E1*0.31415926
+53589793E1*eta*alpha*(m*m*Lx*Lx+" }}{PARA 6 "" 1 "" {TEXT -1 76 "n*n*L
+y*Ly)/(Ly*Ly)/(Lx*Lx)*t)*phiB-beta*n*n*Ly*Ly*phiA+alpha*Ly*Ly*n*n*exp(
+-" }}{PARA 6 "" 1 "" {TEXT -1 78 "0.3141592653589793E1*0.3141592653589
+793E1*eta*alpha*(m*m*Lx*Lx+n*n*Ly*Ly)/(Ly*" }}{PARA 6 "" 1 "" {TEXT 
+-1 61 "Ly)/(Lx*Lx)*t)*phiA+Ly*Ly*n*n*beta*exp(-0.3141592653589793E1*" 
+}}{PARA 6 "" 1 "" {TEXT -1 77 "0.3141592653589793E1*eta*alpha*(m*m*Lx*
+Lx+n*n*Ly*Ly)/(Ly*Ly)/(Lx*Lx)*t)*phiA-" }}{PARA 6 "" 1 "" {TEXT -1 78 
+"alpha*n*n*Ly*Ly*phiA)/alpha/(0.3141592653589793E1*0.3141592653589793E
+1)/(beta+" }}{PARA 6 "" 1 "" {TEXT -1 36 "alpha)/pow(m*m*Lx*Lx+n*n*Ly*
+Ly,2.0);" }}}{EXCHG {PARA 0 "> " 0 "" {MPLTEXT 1 0 0 "" }}}}{MARK "2 0
+ 0" 0 }{VIEWOPTS 1 1 0 1 1 1803 1 1 1 1 }{PAGENUMBERS 0 1 2 33 1 1 }
